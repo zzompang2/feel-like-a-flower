@@ -32,10 +32,15 @@ const basicStyleSheet = StyleSheet.create({
 		height: 26,
 		borderRadius: 13,
 		borderWidth: 1,
-		paddingHorizontal: 10,
+		marginRight: 5,
+		marginBottom: 5,
 		justifyContent: 'center',
 		alignSelf: 'center'
 	},
+	main__emotionBtn__text: {
+		paddingVertical: 5,
+		paddingHorizontal: 10,
+	}
 });
 
 const lightStyleSheet = StyleSheet.create({
@@ -58,9 +63,19 @@ const lightStyleSheet = StyleSheet.create({
 		...basicStyleSheet.main__emotionBtn,
 		borderColor: COLORS.green3,
 	},
+	main__emotionBtnSelected: {
+		...basicStyleSheet.main__emotionBtn,
+		borderColor: COLORS.green3,
+		backgroundColor: COLORS.green3,
+	},
 	main__emotionBtn__text: {
+		...basicStyleSheet.main__emotionBtn__text,
 		color: COLORS.green3,
-	}
+	},
+	main__emotionBtn__textSelected: {
+		...basicStyleSheet.main__emotionBtn__text,
+		color: COLORS.white,
+	},
 });
 
 export default function getStyleSheet(theme) {
