@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  Text,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import ScreenStack from './src/screens';
 
 export default function App() {
   return (
-  <SafeAreaView>
-    <Text>Hello ham</Text>
-  </SafeAreaView>
+  <NavigationContainer>
+    <ScreenStack />
+  </NavigationContainer>
   );
 };
