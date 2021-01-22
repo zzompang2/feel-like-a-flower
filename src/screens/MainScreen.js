@@ -59,6 +59,8 @@ export default class MainScreen extends React.Component {
 				'PRIMARY KEY(eid))'
 			);
 
+			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [-1, '없음', 0]);
+
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '행복', 0]);
 
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
@@ -224,7 +226,7 @@ export default class MainScreen extends React.Component {
 
 		Keyboard.dismiss();
 		if(this.contents == undefined || this.contents == '')
-		Alert.alert("일기장", "오늘 기분이 어떠신가요? ^__^",
+		Alert.alert("일기장 내용", "오늘 기분이 어떠신가요? ^__^",
 		[{ text: '적어볼게요' }]);
 
 		else {
