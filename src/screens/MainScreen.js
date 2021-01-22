@@ -47,7 +47,7 @@ export default class MainScreen extends React.Component {
 				'date TEXT NOT NULL, ' +
 				'editDate TEXT NOT NULL, ' +
 				'emotion INTEGER NOT NULL, ' +
-				'content TEXT NOT NULL, ' +
+				'contents TEXT NOT NULL, ' +
 				'PRIMARY KEY(id))'
 			);
 
@@ -220,7 +220,7 @@ export default class MainScreen extends React.Component {
 	}
 
 	addDiary = () => {
-		const { diaries } = this.state;
+		const { diaries, selectedEmotion } = this.state;
 		const id = this.getTodayDiaryId();
 		const date = this.getTodayDate();
 
@@ -230,14 +230,14 @@ export default class MainScreen extends React.Component {
 		[{ text: '적어볼게요' }]);
 
 		else {
-			const newDiaries = [...diaries, { id, date, editDate: date, emotion: this.emotion, content }];
+			const newDiaries = [...diaries, { id, date, editDate: date, emotion: this.emotion, contents: this.contents }];
 
 			this.setState({ diaries: newDiaries });
 
 			db.transaction(txn => {
 				txn.executeSql(
 					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",
-					[id, date, date, this.emotion, this.contents]
+					[id, date, date, selectedEmotion.eid, this.contents]
 				);
 			},
 			e => console.log("DB ERROR", e),
