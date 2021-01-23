@@ -30,6 +30,10 @@ export default class MainScreen extends React.Component {
 			selectedEmotion: {eid: -1},
 		};
 
+		this.todayDate = new Date();
+		this.dateString = this.getTodayDate(this.todayDate);
+		this.diaryId = this.getTodayDiaryId(this.todayDate);
+		this.contents == '';
 		this.logoOpacity = new Animated.Value(1);		// 로고 불투명도
 		this.screenTop = new Animated.Value(0);
 		this.logoDisappear = false;									// 로고 안 보이는지 여부
@@ -124,23 +128,20 @@ export default class MainScreen extends React.Component {
 	}
 
 	/* Date() 로 받은 날짜 값을 YYYY.MM.DD 포멧의 string 으로 변경 */
-	getTodayDate() {
-		const date = new Date();
+	getTodayDate(date) {
 		return `${date.getFullYear()}.` +
 					 `${(date.getMonth() < 9 ? '0' : '') + (date.getMonth()+1)}.` +
 					 `${(date.getDate() < 10 ? '0' : '') + date.getDate()}`;
 	}
 
 	/* Date() 로 받은 시간 값을 HH:MM 포멧의 string 으로 변경 */
-	getTodayTime() {
-		const date = new Date();
+	getTodayTime(date) {
 		return `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:` +
 					 `${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`;
 	}
 
 	/* Date() 로 받은 날짜 값으로 YYYYMMDD 숫자를 만든다 */
-	getTodayDiaryId() {
-		const date = new Date();
+	getTodayDiaryId(date) {
 		const stringId = `${date.getFullYear()}` +
 					 					`${(date.getMonth() < 9 ? '0' : '') + (date.getMonth()+1)}` +
 										 `${(date.getDate() < 10 ? '0' : '') + date.getDate()}`;
@@ -196,11 +197,11 @@ export default class MainScreen extends React.Component {
 
 	addDiary = () => {
 		const { diaries, selectedEmotion } = this.state;
-		const id = this.getTodayDiaryId();
-		const date = this.getTodayDate();
+		const id = this.diaryId;
+		const date = this.dateString;
 
 		Keyboard.dismiss();
-		if(this.contents == undefined || this.contents == '')
+		if(this.contents == '')
 		Alert.alert("일기장 내용", "오늘 기분이 어떠신가요? ^__^",
 		[{ text: '적어볼게요' }]);
 
@@ -213,7 +214,8 @@ export default class MainScreen extends React.Component {
 				this.screenTop,
 				{
 					toValue: 1,
-					duration: 1000,
+					friction : 8,
+        	tension : 50,
 					useNativeDriver: false,
 				}
 			).start();
@@ -242,7 +244,6 @@ export default class MainScreen extends React.Component {
 		} = this.state;
 
 		const {
-			getTodayDate,
 			onChangeContents,
 			addDiary,
 			selectEmotion,
@@ -256,9 +257,9 @@ export default class MainScreen extends React.Component {
 			inputRange: [0, 1],
 			outputRange: ['0%', '-80%']
 		}) };
-		this.screenGreenStyle = { height: this.screenTop.interpolate({
+		this.screenGreenStyle = { bottom: this.screenTop.interpolate({
 			inputRange: [0, 1],
-			outputRange: ['0%', '80%']
+			outputRange: ['-80%', '0%']
 		}) };
 
 		return(
@@ -289,7 +290,7 @@ export default class MainScreen extends React.Component {
 						alignItems: 'center',
 						justifyContent: 'space-between',
 						paddingBottom: 5}}>
-						<Text style={styles.main__topText}>{getTodayDate()}</Text>
+						<Text style={styles.main__topText}>{this.dateString}</Text>
 
 						<View style={styles.main__topLine} />
 
@@ -431,8 +432,8 @@ export default class MainScreen extends React.Component {
 				</Animated.View>
 
 				<Animated.View
-				style={[this.screenGreenStyle, {position: 'absolute', bottom: 0, width: '100%', backgroundColor: COLORS.green1}]}>
-					<Calender />
+				style={[this.screenGreenStyle, {position: 'absolute', width: '100%', height: '80%', backgroundColor: COLORS.green1}]}>
+					<Calender todayDate={this.todayDate} />
 				</Animated.View>
 			</View>
 		)
