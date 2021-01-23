@@ -46,7 +46,6 @@ const basicStyleSheet = StyleSheet.create({
 const lightStyleSheet = StyleSheet.create({
 	bg: {
 		...basicStyleSheet.bg,
-		backgroundColor: COLORS.white
 	},
 	logo: {
 		...basicStyleSheet.logo,

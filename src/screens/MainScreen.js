@@ -9,6 +9,8 @@ import {
 	Keyboard,
 	Animated,
 	ScrollView,
+	Image,
+	ImageBackground,
 } from 'react-native';
 import SQLite from "react-native-sqlite-storage";
 import getStyleSheet, { COLORS } from '../values/Styles';
@@ -269,8 +271,10 @@ export default class MainScreen extends React.Component {
 		this.logoOpacityStyle = { opacity: this.logoOpacity };
 		this.btnOpacityStyle = { opacity: Animated.add(1, Animated.multiply(-3, this.logoOpacity)) };
 
-		console.log(emotions);
 		return(
+			<ImageBackground
+			source={require('../../assets/drawable/bg_main.png')}
+			style={{flex: 1}}>
 			<SafeAreaView style={styles.bg}>
 			<TouchableOpacity
 			style={[styles.bg, {padding: 20}]}
@@ -283,10 +287,12 @@ export default class MainScreen extends React.Component {
 					justifyContent: 'space-between',
 					paddingBottom: 5}}>
 					<Text style={styles.main__topText}>{getTodayDate()}</Text>
+					{/* 일기장 추가 버튼 */}
+					{emotionBtnEnable ?
 					<TouchableOpacity
 					onPress={() => addDiary()}>
 						<Text style={styles.main__topText}>그만 쓸래요</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> : null}
 				</View>
 
 				{/* contents 입력란 */}
@@ -401,8 +407,18 @@ export default class MainScreen extends React.Component {
 					<Text style={styles.logo}>기분 꽃 같네</Text>
 				</Animated.View>
 
+				<Image
+				source={!emotionBtnEnable ? 
+					require('../../assets/drawable/flower_sprout.gif') :
+					selectedEmotion.eid == -1 ?
+					require('../../assets/drawable/flower_bud.gif') :
+					require('../../assets/drawable/flower_blooming.gif')}
+				style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+				/>
+
 			</TouchableOpacity>
 			</SafeAreaView>
+			</ImageBackground>
 		)
 	}
 }
