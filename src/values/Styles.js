@@ -18,6 +18,49 @@ const basicStyleSheet = StyleSheet.create({
 	bg: {
 		flex: 1,
 	},
+	navigation: {
+		width: '100%',
+		height: 90,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-around',
+	},
+	navigation__btnBox: {
+		width: '25%',
+		height: 50,
+	},
+	navigation__btn: {
+		width: '100%',
+		height: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 8,
+	},
+	navigation__btnText: {
+		fontSize: 16,
+	},
+	navigation__shadow__light: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		backgroundColor: COLORS.white,
+		shadowColor: COLORS.white,
+		shadowOffset: { width: -5, height: -5, },
+		shadowOpacity: 0.8,
+		shadowRadius: 5,
+		borderRadius: 8,
+	},
+	navigation__shadow__dark: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		backgroundColor: COLORS.green3,
+		shadowColor: COLORS.green3,
+		shadowOffset: { width: 10, height: 10, },
+		shadowOpacity: 0.6,
+		shadowRadius: 15,
+		borderRadius: 8,
+	},
 	logo: {
 		fontSize: 30,
 	},
@@ -92,9 +135,9 @@ const basicStyleSheet = StyleSheet.create({
 		position: 'absolute', 
 		backgroundColor: COLORS.green3,
 		shadowColor: COLORS.green3,
-		shadowOffset: { width: 5, height: 5, },
+		shadowOffset: { width: 10, height: 10, },
 		shadowOpacity: 0.6,
-		shadowRadius: 15,
+		shadowRadius: 10,
 	},
 	calender__dateBox: {
 		width: 40,
@@ -113,6 +156,27 @@ const basicStyleSheet = StyleSheet.create({
 const lightStyleSheet = StyleSheet.create({
 	bg: {
 		...basicStyleSheet.bg,
+	},
+	navigation: {
+		...basicStyleSheet.navigation,
+		backgroundColor: COLORS.green1,
+	},
+	navigation__btnBox: {
+		...basicStyleSheet.navigation__btnBox,
+	},
+	navigation__btn: {
+		...basicStyleSheet.navigation__btn,
+		backgroundColor: COLORS.green1,
+	},
+	navigation__btnText: {
+		...basicStyleSheet.navigation__btnText,
+		color: COLORS.green3,
+	},
+	navigation__shadow__light: {
+		...basicStyleSheet.navigation__shadow__light,
+	},
+	navigation__shadow__dark: {
+		...basicStyleSheet.navigation__shadow__dark,
 	},
 	logo: {
 		...basicStyleSheet.logo,

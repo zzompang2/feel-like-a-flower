@@ -257,9 +257,9 @@ export default class MainScreen extends React.Component {
 			inputRange: [0, 1],
 			outputRange: ['0%', '-80%']
 		}) };
-		this.screenGreenStyle = { bottom: this.screenTop.interpolate({
+		this.screenGreenStyle = { top: this.screenTop.interpolate({
 			inputRange: [0, 1],
-			outputRange: ['-80%', '0%']
+			outputRange: ['100%', '20%']
 		}) };
 
 		return(
@@ -432,7 +432,7 @@ export default class MainScreen extends React.Component {
 				</Animated.View>
 
 				<Animated.View
-				style={[this.screenGreenStyle, {position: 'absolute', width: '100%', height: '80%', backgroundColor: COLORS.green1}]}>
+				style={[this.screenGreenStyle, {position: 'absolute', width: '100%', height: '100%', backgroundColor: COLORS.green1}]}>
 					<Calender todayDate={this.todayDate} />
 				</Animated.View>
 			</View>
