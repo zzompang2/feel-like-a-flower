@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import SQLite from "react-native-sqlite-storage";
 import getStyleSheet, { COLORS } from '../values/Styles';
+import Calender from '../components/Calender';
 
 const TAG = 'MainScreen/';
 const db = SQLite.openDatabase({ name: 'FeelLikeAFlower.db' });
@@ -30,6 +31,7 @@ export default class MainScreen extends React.Component {
 		};
 
 		this.logoOpacity = new Animated.Value(1);		// 로고 불투명도
+		this.screenTop = new Animated.Value(0);
 		this.logoDisappear = false;									// 로고 안 보이는지 여부
 		this.keyboradState = false;
 	};
@@ -63,65 +65,35 @@ export default class MainScreen extends React.Component {
 			);
 
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [-1, '없음', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '행복', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [2, '기쁨', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [3, '절망', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [4, '슬픔', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [5, '애매모호', 2]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [6, '인내', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [7, '아름다움', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [8, '승리', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [9, '절망', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [10, '슬픔', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [11, '애매모호', 2]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [12, '인내', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [13, '아름다움', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [14, '승리', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [20, '행복', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [21, '기대', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [22, '기쁨', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [23, '절망', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [24, '슬픔', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [25, '애매모호', 2]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [26, '인내', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [27, '아름다움', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [28, '승리', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [29, '절망', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [210, '슬픔', 1]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [211, '애매모호', 2]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [212, '인내', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [213, '아름다움', 0]);
-
 			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [124, '승리', 0]);
 
 			// DB 에서 note 정보 가져오기
@@ -237,6 +209,15 @@ export default class MainScreen extends React.Component {
 
 			this.setState({ diaries: newDiaries });
 
+			Animated.spring(
+				this.screenTop,
+				{
+					toValue: 1,
+					duration: 1000,
+					useNativeDriver: false,
+				}
+			).start();
+
 			db.transaction(txn => {
 				txn.executeSql(
 					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",
@@ -271,171 +252,189 @@ export default class MainScreen extends React.Component {
 
 		this.logoOpacityStyle = { opacity: this.logoOpacity };
 		this.btnOpacityStyle = { opacity: Animated.add(1, Animated.multiply(-3, this.logoOpacity)) };
+		this.screenTopStyle = { top: this.screenTop.interpolate({
+			inputRange: [0, 1],
+			outputRange: ['0%', '-80%']
+		}) };
+		this.screenGreenStyle = { height: this.screenTop.interpolate({
+			inputRange: [0, 1],
+			outputRange: ['0%', '80%']
+		}) };
 
 		return(
-			<ImageBackground
-			source={require('../../assets/drawable/bg_main.png')}
-			style={{flex: 1}}>
-			<SafeAreaView style={styles.bg}>
-			<TouchableOpacity
-			style={[styles.bg, {padding: 20}]}
-			onPress={() => {
-				if(!this.keyboradState && !emotionBtnEnable) {
-					this.contentsInput.focus();
-					this.keyboradState = true;
-				}
-				else {
-					Keyboard.dismiss();
-					this.keyboradState = false;
-				}
-			}}
-			activeOpacity={1}>
-
-				{/* 상단 바 */}
-				<View style={{
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					paddingBottom: 5}}>
-					<Text style={styles.main__topText}>{getTodayDate()}</Text>
-
-					<View style={styles.main__topLine} />
-
-					{/* 일기장 추가 버튼 */}
-					{emotionBtnEnable ?
-					<TouchableOpacity
-					onPress={() => addDiary()}>
-						<Text style={styles.main__topText}>그만 쓸래요</Text>
-					</TouchableOpacity> : null}
-				</View>
-
-				{/* contents 입력란 */}
-				<TextInput 
-				style={styles.contentsInput}
-				maxLength={200}
-				multiline={true}
-				autoCorrect={false}
-				placeholder="오늘 참.."
-				placeholderTextColor={COLORS.gray}
-				ref={ref => this.contentsInput = ref}
-				onChangeText={text => onChangeContents(text)} />
-
-				{/* 기분 추가 버튼 */}
-				{emotionBtnEnable && !emotionItemEnable ?
+			<View style={{flex: 1}}>
 				<Animated.View
-				style={[this.btnOpacityStyle, {flexDirection: 'row'}]}>
-					<TouchableOpacity
-					onPress={() => {
-						this.setState({ emotionItemEnable: true });
+				style={[{flex: 1}, this.screenTopStyle]}>
+				<ImageBackground
+				source={require('../../assets/drawable/bg_main.png')}
+				style={{flex: 1}}>
+				<SafeAreaView style={styles.bg}>
+				<TouchableOpacity
+				style={[styles.bg, {padding: 20}]}
+				onPress={() => {
+					if(!this.keyboradState && !emotionBtnEnable) {
+						this.contentsInput.focus();
+						this.keyboradState = true;
+					}
+					else {
 						Keyboard.dismiss();
-					}}
-					activeOpacity={.8}
-					style={selectedEmotion.eid == -1 ?
-					styles.main__emotionBtn : styles.main__emotionBtnSelected}>
-						{selectedEmotion.eid == -1 ?
-						<Text style={styles.main__emotionBtn__text}>+ 기분 태그달기</Text> :
-						<Text style={styles.main__emotionBtn__textSelected}>{selectedEmotion.name}</Text>}
-					</TouchableOpacity>
-				</Animated.View>
-				: null}
+						this.keyboradState = false;
+					}
+				}}
+				activeOpacity={1}>
 
-				{/* 기분 아이템 리스트 */}
-				{emotionItemEnable ?
-				<View>
-					<ScrollView
-					horizontal
-					showsHorizontalScrollIndicator={false}>
-					<View>
-						<View style={{flexDirection: 'row'}}>
-							{emotions.slice(0, Math.floor(emotions.length/3)).map(emo => 
-							<TouchableOpacity
-							key={emo.eid}
-							onPress={() => selectEmotion(emo)}
-							style={
-								selectedEmotion.eid == emo.eid ?
-								styles.main__emotionBtnSelected : styles.main__emotionBtn}
-							activeOpacity={.8}>
-								<Text
-								style={
-									selectedEmotion.eid == emo.eid ?
-									styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-								}>{emo.name}</Text>
-							</TouchableOpacity>
-							)}
-						</View>
-						<View style={{flexDirection: 'row'}}>
-							{emotions.slice(Math.floor(emotions.length/3), Math.floor(emotions.length*2/3)).map(emo => 
-							<TouchableOpacity
-							key={emo.eid}
-							onPress={() => selectEmotion(emo)}
-							style={
-								selectedEmotion.eid == emo.eid ?
-								styles.main__emotionBtnSelected : styles.main__emotionBtn}
-							activeOpacity={.8}>
-								<Text
-								style={
-									selectedEmotion.eid == emo.eid ?
-									styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-								}>{emo.name}</Text>
-							</TouchableOpacity>
-							)}
-						</View>
-						<View style={{flexDirection: 'row'}}>
-							{emotions.slice(Math.floor(emotions.length*2/3)).map(emo => 
-							<TouchableOpacity
-							key={emo.eid}
-							onPress={() => selectEmotion(emo)}
-							style={
-								selectedEmotion.eid == emo.eid ?
-								styles.main__emotionBtnSelected : styles.main__emotionBtn}
-							activeOpacity={.8}>
-								<Text
-								style={
-									selectedEmotion.eid == emo.eid ?
-									styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-								}>{emo.name}</Text>
-							</TouchableOpacity>
-							)}
-						</View>
-					</View>
-					</ScrollView>
-					{/* 기분 태그 닫기 */}
-					<TouchableOpacity
-					onPress={() => this.setState({ emotionItemEnable: false })}
-					activeOpacity={.8}>
-						<Text style={styles.main__emotionBtn__text}>태그 닫기</Text>
-					</TouchableOpacity>
-				</View>
-				: null}
-
-				{/* 로고 */}
-				<Animated.View
-				pointerEvents='none'
-				style={[
-					{
-						position: 'absolute',
-						width: '100%',
-						height: '100%',
+					{/* 상단 바 */}
+					<View style={{
+						flexDirection: 'row',
 						alignItems: 'center',
-						justifyContent: 'center'
-					},
-					this.logoOpacityStyle
-				]}>
-					<Text style={styles.logo}>기분 꽃 같네</Text>
+						justifyContent: 'space-between',
+						paddingBottom: 5}}>
+						<Text style={styles.main__topText}>{getTodayDate()}</Text>
+
+						<View style={styles.main__topLine} />
+
+						{/* 일기장 추가 버튼 */}
+						{emotionBtnEnable ?
+						<TouchableOpacity
+						onPress={() => addDiary()}>
+							<Text style={styles.main__topText}>그만 쓸래요</Text>
+						</TouchableOpacity> : null}
+					</View>
+
+					{/* contents 입력란 */}
+					<TextInput 
+					style={styles.contentsInput}
+					maxLength={200}
+					multiline={true}
+					autoCorrect={false}
+					placeholder="오늘 참.."
+					placeholderTextColor={COLORS.gray}
+					ref={ref => this.contentsInput = ref}
+					onChangeText={text => onChangeContents(text)} />
+
+					{/* 기분 추가 버튼 */}
+					{emotionBtnEnable && !emotionItemEnable ?
+					<Animated.View
+					style={[this.btnOpacityStyle, {flexDirection: 'row'}]}>
+						<TouchableOpacity
+						onPress={() => {
+							this.setState({ emotionItemEnable: true });
+							Keyboard.dismiss();
+						}}
+						activeOpacity={.8}
+						style={selectedEmotion.eid == -1 ?
+						styles.main__emotionBtn : styles.main__emotionBtnSelected}>
+							{selectedEmotion.eid == -1 ?
+							<Text style={styles.main__emotionBtn__text}>+ 기분 태그달기</Text> :
+							<Text style={styles.main__emotionBtn__textSelected}>{selectedEmotion.name}</Text>}
+						</TouchableOpacity>
+					</Animated.View>
+					: null}
+
+					{/* 기분 아이템 리스트 */}
+					{emotionItemEnable ?
+					<View>
+						<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}>
+						<View>
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(0, Math.floor(emotions.length/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
+									style={
+										selectedEmotion.eid == emo.eid ?
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
+							</View>
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(Math.floor(emotions.length/3), Math.floor(emotions.length*2/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
+									style={
+										selectedEmotion.eid == emo.eid ?
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
+							</View>
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(Math.floor(emotions.length*2/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
+									style={
+										selectedEmotion.eid == emo.eid ?
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
+							</View>
+						</View>
+						</ScrollView>
+						{/* 기분 태그 닫기 */}
+						<TouchableOpacity
+						onPress={() => this.setState({ emotionItemEnable: false })}
+						activeOpacity={.8}>
+							<Text style={styles.main__emotionBtn__text}>태그 닫기</Text>
+						</TouchableOpacity>
+					</View>
+					: null}
+
+					{/* 로고 */}
+					<Animated.View
+					pointerEvents='none'
+					style={[
+						{
+							position: 'absolute',
+							width: '100%',
+							height: '100%',
+							alignItems: 'center',
+							justifyContent: 'center'
+						},
+						this.logoOpacityStyle
+					]}>
+						<Text style={styles.logo}>기분 꽃 같네</Text>
+					</Animated.View>
+
+					<Image
+					source={!emotionBtnEnable ? 
+						require('../../assets/drawable/flower_sprout.gif') :
+						selectedEmotion.eid == -1 ?
+						require('../../assets/drawable/flower_bud.gif') :
+						require('../../assets/drawable/flower_blooming.gif')}
+					style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+					/>
+
+				</TouchableOpacity>
+				</SafeAreaView>
+				</ImageBackground>
 				</Animated.View>
 
-				<Image
-				source={!emotionBtnEnable ? 
-					require('../../assets/drawable/flower_sprout.gif') :
-					selectedEmotion.eid == -1 ?
-					require('../../assets/drawable/flower_bud.gif') :
-					require('../../assets/drawable/flower_blooming.gif')}
-				style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
-				/>
-
-			</TouchableOpacity>
-			</SafeAreaView>
-			</ImageBackground>
+				<Animated.View
+				style={[this.screenGreenStyle, {position: 'absolute', bottom: 0, width: '100%', backgroundColor: COLORS.green1}]}>
+					<Calender />
+				</Animated.View>
+			</View>
 		)
 	}
 }

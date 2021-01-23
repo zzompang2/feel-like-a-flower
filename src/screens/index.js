@@ -1,15 +1,17 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import MainScreen from './MainScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import CalenderScreen from './CalenderScreen';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function ScreenStack() {
   return (
-		<Stack.Navigator
-		initialRouteName="Main"
-		headerMode={'none'}>
-      <Stack.Screen name="Main" component={MainScreen} />
-    </Stack.Navigator>
+		<Tab.Navigator>
+			<Tab.Screen
+			name="Main"
+			component={MainScreen} />
+			{/* <Tab.Screen name="Calender" component={CalenderScreen} /> */}
+	</Tab.Navigator>
   );
 }
