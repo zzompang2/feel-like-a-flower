@@ -31,6 +31,7 @@ export default class MainScreen extends React.Component {
 
 		this.logoOpacity = new Animated.Value(1);		// 로고 불투명도
 		this.logoDisappear = false;									// 로고 안 보이는지 여부
+		this.keyboradState = false;
 	};
 
 	getDatabaseData() {
@@ -278,15 +279,25 @@ export default class MainScreen extends React.Component {
 			<SafeAreaView style={styles.bg}>
 			<TouchableOpacity
 			style={[styles.bg, {padding: 20}]}
-			onPress={() => Keyboard.dismiss()}
+			onPress={() => {
+				if(!this.keyboradState)
+				this.contentsInput.focus();
+				else
+				Keyboard.dismiss();
+				this.keyboradState = !this.keyboradState;
+			}}
 			activeOpacity={1}>
 
 				{/* 상단 바 */}
 				<View style={{
 					flexDirection: 'row',
+					alignItems: 'center',
 					justifyContent: 'space-between',
 					paddingBottom: 5}}>
 					<Text style={styles.main__topText}>{getTodayDate()}</Text>
+
+					<View style={styles.main__topLine} />
+
 					{/* 일기장 추가 버튼 */}
 					{emotionBtnEnable ?
 					<TouchableOpacity
@@ -335,6 +346,7 @@ export default class MainScreen extends React.Component {
 						<View style={{flexDirection: 'row'}}>
 							{emotions.slice(0, Math.floor(emotions.length/3)).map(emo => 
 							<TouchableOpacity
+							key={emo.eid}
 							onPress={() => selectEmotion(emo)}
 							style={
 								selectedEmotion.eid == emo.eid ?
@@ -351,6 +363,7 @@ export default class MainScreen extends React.Component {
 						<View style={{flexDirection: 'row'}}>
 							{emotions.slice(Math.floor(emotions.length/3), Math.floor(emotions.length*2/3)).map(emo => 
 							<TouchableOpacity
+							key={emo.eid}
 							onPress={() => selectEmotion(emo)}
 							style={
 								selectedEmotion.eid == emo.eid ?
@@ -367,6 +380,7 @@ export default class MainScreen extends React.Component {
 						<View style={{flexDirection: 'row'}}>
 							{emotions.slice(Math.floor(emotions.length*2/3)).map(emo => 
 							<TouchableOpacity
+							key={emo.eid}
 							onPress={() => selectEmotion(emo)}
 							style={
 								selectedEmotion.eid == emo.eid ?

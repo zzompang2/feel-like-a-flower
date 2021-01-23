@@ -28,6 +28,11 @@ const basicStyleSheet = StyleSheet.create({
 	main__topText: {
 		fontSize: 15,
 	},
+	main__topLine: {
+		flex: 1,
+		height: 1,
+		marginHorizontal: 10,
+	},
 	main__emotionBtn: {
 		height: 26,
 		borderRadius: 13,
@@ -57,6 +62,10 @@ const lightStyleSheet = StyleSheet.create({
 	main__topText: {
 		...basicStyleSheet.main__topText,
 		color: COLORS.green3,
+	},
+	main__topLine: {
+		...basicStyleSheet.main__topLine,
+		backgroundColor: COLORS.green3,
 	},
 	main__emotionBtn: {
 		...basicStyleSheet.main__emotionBtn,
