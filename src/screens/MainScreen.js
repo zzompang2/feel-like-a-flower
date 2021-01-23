@@ -280,11 +280,14 @@ export default class MainScreen extends React.Component {
 			<TouchableOpacity
 			style={[styles.bg, {padding: 20}]}
 			onPress={() => {
-				if(!this.keyboradState)
-				this.contentsInput.focus();
-				else
-				Keyboard.dismiss();
-				this.keyboradState = !this.keyboradState;
+				if(!this.keyboradState && !emotionBtnEnable) {
+					this.contentsInput.focus();
+					this.keyboradState = true;
+				}
+				else {
+					Keyboard.dismiss();
+					this.keyboradState = false;
+				}
 			}}
 			activeOpacity={1}>
 
