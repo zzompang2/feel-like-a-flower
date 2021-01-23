@@ -18,16 +18,22 @@ const basicStyleSheet = StyleSheet.create({
 	bg: {
 		flex: 1,
 	},
+	bg__green: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+	},
 	navigation: {
 		width: '100%',
 		height: 90,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-around',
+		justifyContent: 'center',
 	},
 	navigation__btnBox: {
 		width: '25%',
 		height: 50,
+		marginHorizontal: 10,
 	},
 	navigation__btn: {
 		width: '100%',
@@ -156,6 +162,10 @@ const basicStyleSheet = StyleSheet.create({
 const lightStyleSheet = StyleSheet.create({
 	bg: {
 		...basicStyleSheet.bg,
+	},
+	bg__green: {
+		...basicStyleSheet.bg__green,
+		backgroundColor: COLORS.green1,
 	},
 	navigation: {
 		...basicStyleSheet.navigation,
