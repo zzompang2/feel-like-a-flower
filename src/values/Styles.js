@@ -160,6 +160,9 @@ const basicStyleSheet = StyleSheet.create({
 	calender__dateText: {
 		fontSize: 25,
 	},
+	calender__emotionName: {
+		fontSize: 15,
+	},
 
 	// DiaryScreen
 
@@ -284,6 +287,10 @@ const lightStyleSheet = StyleSheet.create({
 	calender__dateText: {
 		...basicStyleSheet.calender__dateText,
 		color: COLORS.green1,
+	},
+	calender__emotionName: {
+		...basicStyleSheet.calender__emotionName,
+		color: COLORS.green3,
 	},
 	diaryList: {
 		...basicStyleSheet.diaryList,

@@ -8,9 +8,9 @@ import {
 import getStyleSheet, { COLORS } from '../values/Styles';
 import Calender from '../components/Calender';
 
-const TAG = 'MainScreen/';
+const TAG = 'CalenderScreen/';
 
-export default class MainScreen extends React.Component {
+export default class CalenderScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -62,7 +62,7 @@ export default class MainScreen extends React.Component {
 				</Animated.View>
 				<Animated.View
 				style={[this.screenGreenStyle, styles.bg__green]}>
-					<Calender todayDate={this.todayDate} diaries={diaries} />
+					<Calender todayDate={this.todayDate} diaries={diaries} emotions={emotions} />
 				</Animated.View>
 			</View>
 		)

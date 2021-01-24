@@ -25,15 +25,21 @@ export default class Calender extends React.Component {
 		this.lastDayOfMonth = this.getLastDayOfMonth(this.month);
 
 		this.dateComponents = [];
-		
+		let diariesIdx = 0;
+
 		// 첫 주
 		const firstWeek = [];
 		const spaceNumAtFrontOfCalender = this.getSpaceNumAtFrontOfCalender(this.date, todayDate.getDay());
 		for(let i=0; i<spaceNumAtFrontOfCalender; i++)
-		firstWeek.push(0);
+		firstWeek.push({ date: 0 });
 		let date = 1;
 		while(firstWeek.length != 7) {
-			firstWeek.push(date);
+			if(diaries[diariesIdx]?.id % 100 == date) {
+				firstWeek.push({ date, diariesIdx });
+				diariesIdx++;
+			}
+			else
+			firstWeek.push({ date, diariesIdx: -1 });
 			date++;
 		}
 		this.dateComponents.push(firstWeek);
@@ -42,10 +48,16 @@ export default class Calender extends React.Component {
 		while(date <= this.lastDayOfMonth) {
 			const week = [];
 			while(week.length != 7) {
-				if(date <= this.lastDayOfMonth)
-				week.push(date);
+				if(date <= this.lastDayOfMonth) {
+					if(diaries[diariesIdx]?.id % 100 == date) {
+						week.push({ date, diariesIdx });
+						diariesIdx++;
+					}
+					else
+					week.push({ date, diariesIdx: -1 });
+				}
 				else
-				week.push(0);
+				week.push({ date: 0 });
 				date++;
 			}
 			this.dateComponents.push(week);
@@ -99,13 +111,25 @@ export default class Calender extends React.Component {
 		this.setState({ viewMode: 'flower' });
 	}
 
+	findEmotionName = (eid) => {
+		const { emotions } = this.props;
+		console.log(eid);
+		for(let i=0; i < emotions.length; i++) {
+			if(emotions[i].eid == eid) {
+				console.log(emotions[i]);
+			return emotions[i].name;
+			}
+		}
+		return {};
+	}
+
 	render() {
-		const { todayDate } =this.props;
+		const { todayDate, diaries } =this.props;
 		const { viewMode } = this.state;
-		const { changeViewMode } = this;
+		const { changeViewMode, findEmotionName } = this;
 		const styles = getStyleSheet();
 
-		console.log(todayDate);
+		console.log(this.dateComponents);
 		return (
       <View style={[styles.bg, {alignItems: 'center'}]}>
 				<View style={styles.calender}>
@@ -135,17 +159,22 @@ export default class Calender extends React.Component {
 							</View>
 							{this.dateComponents.map((week, idx) =>
 							<View key={idx} style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-								{week.map((date, idx) =>
+								{week.map((item, idx) =>
 								<View
 								key={idx}
-								style={date == 0 ?
+								style={item.date == 0 ?
 									styles.calender__dateBox__empty :
-									date < this.date ?
+									item.date < this.date && item.diariesIdx < 0 ?
 									styles.calender__dateBox__past :
-									date == this.date ?
+									item.date == this.date ?
 									styles.calender__dateBox__today :
-									styles.calender__dateBox__coming}>
-									<Text style={styles.calender__dateText}>{date}</Text>
+									styles.calender__dateBox__coming
+								}>
+									{item.diariesIdx >= 0 ?
+									<Text style={styles.calender__emotionName}>{findEmotionName(diaries[item.diariesIdx].emotion)}</Text>
+									:
+									<Text style={styles.calender__dateText}>{item.date}</Text>
+									}
 								</View>
 								)}
 							</View>

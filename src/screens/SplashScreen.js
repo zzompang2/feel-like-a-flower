@@ -26,7 +26,7 @@ export default class SplashScreen extends React.Component {
 			emotions: [],
 			emotionBtnEnable: false,									// 기분 추가하기 버튼을 보이게 할 것인가
 			emotionItemEnable: false,
-			selectedEmotion: {eid: -1},
+			selectedEmotion: {eid: 0},
 		};
 
 		this.todayDate = new Date();
@@ -72,8 +72,7 @@ export default class SplashScreen extends React.Component {
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나']);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ']);
 
-			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [-1, '없음', 0]);
-			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '행복', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '없음', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [2, '기쁨', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [3, '절망', 1]);
@@ -204,7 +203,7 @@ export default class SplashScreen extends React.Component {
 	selectEmotion = (emotion) => {
 		const { selectedEmotion } = this.state;
 		if(selectedEmotion.eid == emotion.eid)
-		this.setState({ selectedEmotion: {eid: -1} });
+		this.setState({ selectedEmotion: {eid: 0} });
 		else
 		this.setState({ selectedEmotion: emotion });
 	}
@@ -220,7 +219,7 @@ export default class SplashScreen extends React.Component {
 		[{ text: '적어볼게요' }]);
 
 		else {
-			const newDiaries = [...diaries, { id, date, editDate: date, emotion: selectedEmotion, contents: this.contents }];
+			const newDiaries = [...diaries, { id, date, editDate: date, emotion: selectedEmotion.eid, contents: this.contents }];
 			db.transaction(txn => {
 				txn.executeSql(
 					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",
@@ -321,9 +320,9 @@ export default class SplashScreen extends React.Component {
 								Keyboard.dismiss();
 							}}
 							activeOpacity={.8}
-							style={selectedEmotion.eid == -1 ?
+							style={selectedEmotion.eid == 0 ?
 							styles.main__emotionBtn : styles.main__emotionBtnSelected}>
-								{selectedEmotion.eid == -1 ?
+								{selectedEmotion.eid == 0 ?
 								<Text style={styles.main__emotionBtn__text}>+ 기분 태그달기</Text> :
 								<Text style={styles.main__emotionBtn__textSelected}>{selectedEmotion.name}</Text>}
 							</TouchableOpacity>
@@ -415,14 +414,15 @@ export default class SplashScreen extends React.Component {
 							<Text style={styles.logo}>기분 꽃 같네</Text>
 						</Animated.View>
 
+						{!emotionBtnEnable ? null :
 						<Image
-						source={!emotionBtnEnable ? 
-							require('../../assets/drawable/flower_sprout.gif') :
-							selectedEmotion.eid == -1 ?
-							require('../../assets/drawable/flower_bud.gif') :
-							require('../../assets/drawable/flower_blooming.gif')}
+						source={
+							selectedEmotion.eid == 0 ?
+							require('../../assets/drawable/flower_seed.png') :
+							require('../../assets/drawable/flower_sprout.gif')}
 						style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
 						/>
+						}
 				</TouchableOpacity>
 				</SafeAreaView>
 				</ImageBackground>
