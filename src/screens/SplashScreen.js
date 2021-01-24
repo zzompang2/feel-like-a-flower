@@ -84,7 +84,7 @@ export default class SplashScreen extends React.Component {
 			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [2, '국화-노랑', '꽃말2', '-1-2-8-']);
 			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [3, '양귀비', '꽃말3', '-3-7-8-9-']);
 
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '기분이 좋아요', 0]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '난 너를 믿었던 만큼 난 내 친구도 믿었기에 난 아무런 부담없이 널 내 친구들에게 소개시켜줬고 그런 만남이 있는 후로부터 우리는 서로 함께 만나며 즐거운 시간을 보내며 함께 어울렸던 것 뿐인데..', 0]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..', 1]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움', 1]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3]);
