@@ -24,6 +24,7 @@ export default class SplashScreen extends React.Component {
 		this.state = {
 			diaries: [],
 			emotions: [],
+			flowers: [],
 			emotionBtnEnable: false,									// 기분 추가하기 버튼을 보이게 할 것인가
 			emotionItemEnable: false,
 			selectedEmotion: {eid: 0},
@@ -41,11 +42,13 @@ export default class SplashScreen extends React.Component {
 	getDatabaseData() {
 		const diaries = [];
 		const emotions = [];
+		const flowers = [];
 
 		db.transaction(txn => {
 			/*=== 기존 TABLE 초기화(for debug) ===*/
 			// txn.executeSql('DROP TABLE IF EXISTS diaries');
 			// txn.executeSql('DROP TABLE IF EXISTS emotions');
+			// txn.executeSql('DROP TABLE IF EXISTS flowers');
 
 			/*=== TABLE 생성 ===*/
 			txn.executeSql(
@@ -55,6 +58,7 @@ export default class SplashScreen extends React.Component {
 				'editDate TEXT NOT NULL, ' +
 				'eid INTEGER NOT NULL, ' +
 				'contents TEXT NOT NULL, ' +
+				'fid INTEGER NOT NULL, ' +
 				'PRIMARY KEY(id))'
 			);
 
@@ -66,11 +70,25 @@ export default class SplashScreen extends React.Component {
 				'PRIMARY KEY(eid))'
 			);
 
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '기분이 좋아요']);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..']);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움']);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나']);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ']);
+			txn.executeSql(
+				'CREATE TABLE IF NOT EXISTS flowers(' +
+				'fid INTEGER NOT NULL, ' +
+				'name TEXT NOT NULL, ' +
+				'language TEXT NOT NULL, ' +
+				'eidList TEXT NOT NULL, ' +
+				'PRIMARY KEY(fid))'
+			);
+
+			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [0, '나팔꽃', '꽃말0', '-1-2-3-']);
+			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [1, '국화-하양', '꽃말1', '-1-4-5-6-7-']);
+			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [2, '국화-노랑', '꽃말2', '-1-2-8-']);
+			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [3, '양귀비', '꽃말3', '-3-7-8-9-']);
+
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '기분이 좋아요', 0]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..', 1]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움', 1]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ', 2]);
 
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '없음', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
@@ -121,20 +139,32 @@ export default class SplashScreen extends React.Component {
 							emotions.push(result.rows.item(i));
 
 							txn.executeSql(
-								"SELECT * FROM diaries WHERE id=?",
-								[this.diaryId],
+								"SELECT * FROM flowers",
+								[],
 								(txn, result) => {
-									// nested navigation 에게 데이터 보내는 방법
-									if(result.rows.length)
-									this.props.navigation.navigate('Main', {
-										screen: 'Calender',
-										params: {
-											diaries: diaries,
-											emotions: emotions,
+									// note 정보 가져오기
+									for (let i = 0; i < result.rows.length; i++)
+									flowers.push(result.rows.item(i));
+
+									txn.executeSql(
+										"SELECT * FROM diaries WHERE id=?",
+										[this.diaryId],
+										(txn, result) => {
+											// nested navigation 에게 데이터 보내는 방법
+											if(result.rows.length)
+											this.props.navigation.navigate('Main', {
+												screen: 'Calender',
+												params: {
+													diaries: diaries,
+													emotions: emotions,
+													flowers: flowers,
+													todayDiary: result.rows.item(0),
+												}
+											});
+											else
+											this.setState({ diaries, emotions, flowers });
 										}
-									});
-									else
-									this.setState({ diaries, emotions });
+									);
 								}
 							);
 						}
@@ -209,9 +239,7 @@ export default class SplashScreen extends React.Component {
 	}
 
 	addDiary = () => {
-		const { selectedEmotion, diaries, emotions } = this.state;
-		const id = this.diaryId;
-		const date = this.dateString;
+		const { selectedEmotion: { eid }, diaries, emotions, flowers } = this.state;
 
 		Keyboard.dismiss();
 		if(this.contents == '')
@@ -219,16 +247,38 @@ export default class SplashScreen extends React.Component {
 		[{ text: '적어볼게요' }]);
 
 		else {
-			const newDiaries = [...diaries, { id, date, editDate: date, eid: selectedEmotion.eid, contents: this.contents }];
+			const id = this.diaryId;
+			const date = this.dateString;
+			let fid = -1;
+			const fidList = [];
+
+			// eid 를 포함하는 flower 를 모두 찾는다
+			if(eid > 0) {
+				for(let i=0; i<flowers.length; i++) {
+					if(flowers[i].eidList.indexOf('-' + eid + '-') >= 0)
+					fidList.push(flowers[i].fid);
+				}
+			}
+
+			// 랜덤으로 한 꽃을 선정한다
+			if(fidList.length > 0)
+			fid = fidList[Math.floor(Math.random() * fidList.length)];
+			
+			console.log('선택한 eid:', eid, 'fidList', fidList, '중에서 선택된 fid =', fid);
+			
+			const newDiary = { id, date, editDate: date, eid, contents: this.contents, fid };
+
 			db.transaction(txn => {
 				txn.executeSql(
-					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",
-					[id, date, date, selectedEmotion.eid, this.contents],
+					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)",
+					[id, date, date, eid, this.contents, fid],
 					() => this.props.navigation.navigate('Main', {
 						screen: 'Calender',
 						params: {
-							diaries: newDiaries,
+							diaries: [...diaries, newDiary],
 							emotions: emotions,
+							flowers: flowers,
+							todayDiary: newDiary,
 						}
 					})
 				);

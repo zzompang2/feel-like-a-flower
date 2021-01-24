@@ -3,11 +3,18 @@ import {
 	Text,
 	View,
 	TouchableOpacity,
+	Image,
 } from "react-native";
 import getStyleSheet from "../values/Styles";
 
 const TAG = "Calender/";
 const days = ["일", "월", "화", "수", "목", "금", "토"];
+const flowersRequire = {
+	'나팔꽃': require('../../assets/drawable/flower_morningGlory.png'),
+	'국화-노랑': require('../../assets/drawable/flower_chrysanthemum-yellow.png'),
+	'국화-하양': require('../../assets/drawable/flower_chrysanthemum-white.png'),
+	'양귀비': require('../../assets/drawable/flower_poppy.png'),
+};
 
 export default class Calender extends React.Component {
 	constructor(props) {
@@ -121,13 +128,26 @@ export default class Calender extends React.Component {
 		return "?";
 	}
 
+	findFlowerName = (fid) => {
+		const { flowers } = this.props;
+
+		for(let i=0; i < flowers.length; i++) {
+			if(flowers[i].fid == fid)
+			return flowers[i].name;
+		}
+		return "?";
+	}
+
 	render() {
-		const { todayDate, diaries } =this.props;
+		const { diaries } =this.props;
 		const { viewMode } = this.state;
-		const { changeViewMode, findEmotionName } = this;
+		const {
+			changeViewMode,
+			findEmotionName,
+			findFlowerName,
+		} = this;
 		const styles = getStyleSheet();
 
-		console.log(this.dateComponents);
 		return (
       <View style={[styles.bg, {alignItems: 'center'}]}>
 				<View style={styles.calender}>
@@ -169,7 +189,13 @@ export default class Calender extends React.Component {
 									styles.calender__dateBox__coming
 								}>
 									{item.diariesIdx >= 0 ?
+									viewMode == 'emotion' ?
 									<Text style={styles.calender__emotionName}>{findEmotionName(diaries[item.diariesIdx].eid)}</Text>
+									:
+									<Image
+									source={flowersRequire[findFlowerName(diaries[item.diariesIdx].fid)]}
+									style={{width: 30, height: 30}}
+									/>
 									:
 									<Text style={styles.calender__dateText}>{item.date}</Text>
 									}
