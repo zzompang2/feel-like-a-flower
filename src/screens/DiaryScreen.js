@@ -17,14 +17,14 @@ export default class DiaryScreen extends React.Component {
 		console.log("Diary Mount");
 	}
 
-	findEmotion = (eid) => {
+	findEmotionName = (eid) => {
 		const { emotions } = this.props.route.params;
 
 		for(let i=0; i < emotions.length; i++) {
 			if(emotions[i].eid == eid)
-			return emotions[i];
+			return emotions[i].name;
 		}
-		return {};
+		return "?";
 	}
 
 	listViewItemSeparator = () => 
@@ -34,7 +34,7 @@ export default class DiaryScreen extends React.Component {
 		const { diaries, emotions } = this.props.route.params;
 		const {
 			listViewItemSeparator,
-			findEmotion,
+			findEmotionName,
 		} = this;
 		const styles = getStyleSheet();
 
@@ -50,7 +50,7 @@ export default class DiaryScreen extends React.Component {
 					<View style={{flexDirection: 'row', alignItems: 'center'}}>
 						<Text style={{color: COLORS.green3, fontWeight: 'bold'}}>{item.date}</Text>
 						<View style={{flex: 1, height: 1, backgroundColor: COLORS.green3, marginHorizontal: 8}} />
-						<Text style={{color: COLORS.green3, fontWeight: 'bold'}}>{findEmotion(item.emotion).name}</Text>
+						<Text style={{color: COLORS.green3, fontWeight: 'bold'}}>{findEmotionName(item.eid)}</Text>
 					</View>
 					<View style={{paddingVertical: 8}}>
 						<Text style={{color: COLORS.green4, fontSize: 16}}>{item.contents}</Text>

@@ -53,7 +53,7 @@ export default class SplashScreen extends React.Component {
 				'id INTEGER NOT NULL, ' +
 				'date TEXT NOT NULL, ' +
 				'editDate TEXT NOT NULL, ' +
-				'emotion INTEGER NOT NULL, ' +
+				'eid INTEGER NOT NULL, ' +
 				'contents TEXT NOT NULL, ' +
 				'PRIMARY KEY(id))'
 			);
@@ -219,7 +219,7 @@ export default class SplashScreen extends React.Component {
 		[{ text: '적어볼게요' }]);
 
 		else {
-			const newDiaries = [...diaries, { id, date, editDate: date, emotion: selectedEmotion.eid, contents: this.contents }];
+			const newDiaries = [...diaries, { id, date, editDate: date, eid: selectedEmotion.eid, contents: this.contents }];
 			db.transaction(txn => {
 				txn.executeSql(
 					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",

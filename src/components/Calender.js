@@ -113,14 +113,12 @@ export default class Calender extends React.Component {
 
 	findEmotionName = (eid) => {
 		const { emotions } = this.props;
-		console.log(eid);
+
 		for(let i=0; i < emotions.length; i++) {
-			if(emotions[i].eid == eid) {
-				console.log(emotions[i]);
+			if(emotions[i].eid == eid)
 			return emotions[i].name;
-			}
 		}
-		return {};
+		return "?";
 	}
 
 	render() {
@@ -171,7 +169,7 @@ export default class Calender extends React.Component {
 									styles.calender__dateBox__coming
 								}>
 									{item.diariesIdx >= 0 ?
-									<Text style={styles.calender__emotionName}>{findEmotionName(diaries[item.diariesIdx].emotion)}</Text>
+									<Text style={styles.calender__emotionName}>{findEmotionName(diaries[item.diariesIdx].eid)}</Text>
 									:
 									<Text style={styles.calender__dateText}>{item.date}</Text>
 									}
