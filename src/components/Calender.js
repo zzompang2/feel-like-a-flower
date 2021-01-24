@@ -1,6 +1,8 @@
 import React from "react";
 import { 
-	PanResponder, Animated, Text, View
+	Text,
+	View,
+	TouchableOpacity,
 } from "react-native";
 import getStyleSheet from "../values/Styles";
 
@@ -11,7 +13,11 @@ export default class Calender extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { todayDate } = this.props;
+		this.state = {
+			viewMode: 'flower',	// emotion
+		};
+
+		const { todayDate, diaries } = this.props;
 
 		this.year = todayDate.getFullYear();
 		this.month = todayDate.getMonth() + 1;
@@ -85,19 +91,35 @@ export default class Calender extends React.Component {
 		}
 	}
 
+	changeViewMode = () => {
+		const { viewMode } = this.state;
+		if(viewMode == 'flower')
+		this.setState({ viewMode: 'emotion' });
+		else
+		this.setState({ viewMode: 'flower' });
+	}
+
 	render() {
 		const { todayDate } =this.props;
+		const { viewMode } = this.state;
+		const { changeViewMode } = this;
 		const styles = getStyleSheet();
 
 		console.log(todayDate);
 		return (
       <View style={[styles.bg, {alignItems: 'center'}]}>
-				
 				<View style={styles.calender}>
 					{/* Year, Month */}
-					<View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-						<Text style={styles.calender__year}>{this.year}</Text>
-						<Text style={styles.calender__month}>{(this.month < 10 ? '0' : '') + this.month}</Text>
+					<View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+						<View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+							<Text style={styles.calender__year}>{this.year}</Text>
+							<Text style={styles.calender__month}>{(this.month < 10 ? '0' : '') + this.month}</Text>
+						</View>
+						<TouchableOpacity
+						onPress={changeViewMode}
+						activeOpacity={.8}>
+							<Text style={styles.main__topText}>{viewMode == 'flower' ? '기분으로 보기' : '꽃으로 보기'}</Text>
+						</TouchableOpacity>
 					</View>
 					{/* Date */}
 					<View style={styles.calender__date__container}>

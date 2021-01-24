@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from './SplashScreen';
-import MainScreen from './MainScreen';
+import CalenderScreen from './CalenderScreen';
 import DiaryScreen from './DiaryScreen';
 import GardenScreen from './GardenScreen';
 import Navigation from '../components/Navigation';
@@ -28,7 +28,7 @@ export default function ScreenStack() {
 				tabBar={({ navigation, state }) => <Navigation navigation={navigation} state={state} />}
 				>
 					<BottomTab.Screen name="Diary" component={DiaryScreen} options={{ tabBarLabel: '일기장'}} />
-					<BottomTab.Screen name="Main" component={MainScreen} options={{ tabBarLabel: '달력'}} />
+					<BottomTab.Screen name="Calender" component={CalenderScreen} options={{ tabBarLabel: '달력'}} />
 					<BottomTab.Screen name="Garden" component={GardenScreen} options={{ tabBarLabel: '정원'}} />
 				</BottomTab.Navigator>
 				}

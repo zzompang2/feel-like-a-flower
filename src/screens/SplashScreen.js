@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import SQLite from "react-native-sqlite-storage";
 import getStyleSheet, { COLORS } from '../values/Styles';
-import Calender from '../components/Calender';
 
 const TAG = 'SplashScreen/';
 const db = SQLite.openDatabase({ name: 'FeelLikeAFlower.db' });
@@ -45,8 +44,8 @@ export default class SplashScreen extends React.Component {
 
 		db.transaction(txn => {
 			/*=== 기존 TABLE 초기화(for debug) ===*/
-			txn.executeSql('DROP TABLE IF EXISTS diaries');
-			txn.executeSql('DROP TABLE IF EXISTS emotions');
+			// txn.executeSql('DROP TABLE IF EXISTS diaries');
+			// txn.executeSql('DROP TABLE IF EXISTS emotions');
 
 			/*=== TABLE 생성 ===*/
 			txn.executeSql(
@@ -67,43 +66,49 @@ export default class SplashScreen extends React.Component {
 				'PRIMARY KEY(eid))'
 			);
 
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [-1, '없음', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '행복', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [2, '기쁨', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [3, '절망', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [4, '슬픔', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [5, '애매모호', 2]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [6, '인내', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [7, '아름다움', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [8, '승리', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [9, '절망', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [10, '슬픔', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [11, '애매모호', 2]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [12, '인내', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [13, '아름다움', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [14, '승리', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [20, '행복', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [21, '기대', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [22, '기쁨', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [23, '절망', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [24, '슬픔', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [25, '애매모호', 2]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [26, '인내', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [27, '아름다움', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [28, '승리', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [29, '절망', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [210, '슬픔', 1]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [211, '애매모호', 2]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [212, '인내', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [213, '아름다움', 0]);
-			txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [124, '승리', 0]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '기분이 좋아요']);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..']);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움']);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나']);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ']);
+
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [-1, '없음', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '행복', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [2, '기쁨', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [3, '절망', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [4, '슬픔', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [5, '애매모호', 2]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [6, '인내', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [7, '아름다움', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [8, '승리', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [9, '절망', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [10, '슬픔', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [11, '애매모호', 2]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [12, '인내', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [13, '아름다움', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [14, '승리', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [20, '행복', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [21, '기대', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [22, '기쁨', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [23, '절망', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [24, '슬픔', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [25, '애매모호', 2]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [26, '인내', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [27, '아름다움', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [28, '승리', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [29, '절망', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [210, '슬픔', 1]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [211, '애매모호', 2]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [212, '인내', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [213, '아름다움', 0]);
+			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [124, '승리', 0]);
 
 			// DB 에서 note 정보 가져오기
 			txn.executeSql(
 				"SELECT * FROM diaries",
 				[],
-        (txn, result) => {
+				(txn, result) => {
 					// note 정보 가져오기
 					for (let i = 0; i < result.rows.length; i++)
 					diaries.push(result.rows.item(i));
@@ -116,7 +121,23 @@ export default class SplashScreen extends React.Component {
 							for (let i = 0; i < result.rows.length; i++)
 							emotions.push(result.rows.item(i));
 
-							this.setState({ diaries, emotions });
+							txn.executeSql(
+								"SELECT * FROM diaries WHERE id=?",
+								[this.diaryId],
+								(txn, result) => {
+									// nested navigation 에게 데이터 보내는 방법
+									if(result.rows.length)
+									this.props.navigation.navigate('Main', {
+										screen: 'Calender',
+										params: {
+											diaries: diaries,
+											emotions: emotions,
+										}
+									});
+									else
+									this.setState({ diaries, emotions });
+								}
+							);
 						}
 					);
 				}
@@ -131,12 +152,6 @@ export default class SplashScreen extends React.Component {
 		return `${date.getFullYear()}.` +
 					 `${(date.getMonth() < 9 ? '0' : '') + (date.getMonth()+1)}.` +
 					 `${(date.getDate() < 10 ? '0' : '') + date.getDate()}`;
-	}
-
-	/* Date() 로 받은 시간 값을 HH:MM 포멧의 string 으로 변경 */
-	getTodayTime(date) {
-		return `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:` +
-					 `${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`;
 	}
 
 	/* Date() 로 받은 날짜 값으로 YYYYMMDD 숫자를 만든다 */
@@ -195,7 +210,7 @@ export default class SplashScreen extends React.Component {
 	}
 
 	addDiary = () => {
-		const { diaries, selectedEmotion } = this.state;
+		const { selectedEmotion, diaries, emotions } = this.state;
 		const id = this.diaryId;
 		const date = this.dateString;
 
@@ -205,16 +220,18 @@ export default class SplashScreen extends React.Component {
 		[{ text: '적어볼게요' }]);
 
 		else {
-			const newDiaries = [...diaries, { id, date, editDate: date, emotion: this.emotion, contents: this.contents }];
-
-			this.setState({ diaries: newDiaries });
-
-			this.props.navigation.navigate('Main');
-
+			const newDiaries = [...diaries, { id, date, editDate: date, emotion: selectedEmotion, contents: this.contents }];
 			db.transaction(txn => {
 				txn.executeSql(
 					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?)",
-					[id, date, date, selectedEmotion.eid, this.contents]
+					[id, date, date, selectedEmotion.eid, this.contents],
+					() => this.props.navigation.navigate('Main', {
+						screen: 'Calender',
+						params: {
+							diaries: newDiaries,
+							emotions: emotions,
+						}
+					})
 				);
 			},
 			e => console.log("DB ERROR", e),

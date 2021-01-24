@@ -51,7 +51,7 @@ const basicStyleSheet = StyleSheet.create({
 		height: '100%',
 		backgroundColor: COLORS.white,
 		shadowColor: COLORS.white,
-		shadowOffset: { width: -5, height: -5, },
+		shadowOffset: { width: -3, height: -3, },
 		shadowOpacity: 0.8,
 		shadowRadius: 5,
 		borderRadius: 8,
@@ -62,9 +62,9 @@ const basicStyleSheet = StyleSheet.create({
 		height: '100%',
 		backgroundColor: COLORS.green3,
 		shadowColor: COLORS.green3,
-		shadowOffset: { width: 10, height: 10, },
+		shadowOffset: { width: 5, height: 5, },
 		shadowOpacity: 0.6,
-		shadowRadius: 15,
+		shadowRadius: 10,
 		borderRadius: 8,
 	},
 	logo: {
@@ -77,6 +77,7 @@ const basicStyleSheet = StyleSheet.create({
 	},
 	main__topText: {
 		fontSize: 15,
+		padding: 5,
 	},
 	main__topLine: {
 		flex: 1,
@@ -103,10 +104,12 @@ const basicStyleSheet = StyleSheet.create({
 	},
 	calender__year: {
 		fontSize: 25,
+		marginHorizontal: 8,
 	},
 	calender__month: {
-		fontSize: 40,
+		fontSize: 45,
 		fontWeight: 'bold',
+		bottom: -5,
 	},
 	calender__dayBox: {
 		width: 40,
@@ -156,6 +159,12 @@ const basicStyleSheet = StyleSheet.create({
 	},
 	calender__dateText: {
 		fontSize: 25,
+	},
+
+	// DiaryScreen
+
+	diaryList: {
+		padding: 20,
 	},
 });
 
@@ -275,7 +284,10 @@ const lightStyleSheet = StyleSheet.create({
 	calender__dateText: {
 		...basicStyleSheet.calender__dateText,
 		color: COLORS.green1,
-	}
+	},
+	diaryList: {
+		...basicStyleSheet.diaryList,
+	},
 });
 
 export default function getStyleSheet(theme) {

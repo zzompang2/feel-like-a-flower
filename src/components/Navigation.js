@@ -15,13 +15,19 @@ export default class Navigation extends React.Component {
 		const { navigation, state } = this.props;
 		const styles = getStyleSheet();
 
+		// splash screen 에서 calender screen 으로 보낸 props
+		const { diaries, emotions } = state.routes[1].params;
+
 		return (
 			<SafeAreaView
 			style={styles.navigation}>
 				<TouchableOpacity
 				activeOpacity={.7}
 				style={styles.navigation__btnBox}
-				onPress={() => navigation.navigate('Diary')}>
+				onPress={() => navigation.navigate('Diary', {
+					diaries: diaries,
+					emotions: emotions,
+				})}>
 					<View style={styles.navigation__shadow__light} />
 					<View style={styles.navigation__shadow__dark} />
 					<View style={styles.navigation__btn}>
@@ -31,7 +37,7 @@ export default class Navigation extends React.Component {
 				<TouchableOpacity
 				activeOpacity={.7}
 				style={styles.navigation__btnBox}
-				onPress={() => navigation.navigate('Main')}>
+				onPress={() => navigation.navigate('Calender')}>
 					<View style={styles.navigation__shadow__light} />
 					<View style={styles.navigation__shadow__dark} />
 					<View style={styles.navigation__btn}>
@@ -41,7 +47,10 @@ export default class Navigation extends React.Component {
 				<TouchableOpacity
 				activeOpacity={.7}
 				style={styles.navigation__btnBox}
-				onPress={() => navigation.navigate('Garden')}>
+				onPress={() => navigation.navigate('Garden', {
+					diaries: diaries,
+					emotions: emotions,
+				})}>
 					<View style={styles.navigation__shadow__light} />
 					<View style={styles.navigation__shadow__dark} />
 					<View style={styles.navigation__btn}>

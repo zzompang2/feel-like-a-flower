@@ -5,18 +5,17 @@ import {
 	Image,
 	ImageBackground,
 } from 'react-native';
-import SQLite from "react-native-sqlite-storage";
 import getStyleSheet, { COLORS } from '../values/Styles';
 import Calender from '../components/Calender';
 
 const TAG = 'MainScreen/';
-const db = SQLite.openDatabase({ name: 'FeelLikeAFlower.db' });
 
 export default class MainScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			diaries: [],
+			diaries: this.props.route.params.diaries,
+			emotions: this.props.route.params.emotions,
 		};
 
 		this.todayDate = new Date();
@@ -37,6 +36,7 @@ export default class MainScreen extends React.Component {
 	}
 
 	render() {
+		const { diaries, emotions } = this.state;
 		const styles = getStyleSheet();
 
 		this.screenTopStyle = { top: this.screenTop.interpolate({
@@ -62,7 +62,7 @@ export default class MainScreen extends React.Component {
 				</Animated.View>
 				<Animated.View
 				style={[this.screenGreenStyle, styles.bg__green]}>
-					<Calender todayDate={this.todayDate} />
+					<Calender todayDate={this.todayDate} diaries={diaries} />
 				</Animated.View>
 			</View>
 		)
