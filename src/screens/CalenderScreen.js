@@ -168,11 +168,11 @@ export default class CalenderScreen extends React.Component {
 
 		this.screenTopStyle = { top: this.screenTop.interpolate({
 			inputRange: [0, 1],
-			outputRange: ['0%', '-80%']
+			outputRange: ['0%', '-70%']
 		}) };
 		this.screenGreenStyle = { top: this.screenTop.interpolate({
 			inputRange: [0, 1],
-			outputRange: ['100%', '20%']
+			outputRange: ['100%', '30%']
 		}) };
 
 		return(

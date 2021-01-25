@@ -80,7 +80,8 @@ export default class Flower extends React.Component {
 
 		this.containerPosStyle = {
 			left: 50 * flowerBlank.x,
-			top: 50 * flowerBlank.y
+			top: 50 * flowerBlank.y,
+			zIndex: flowerBlank.y,
 		}
 		this.boxPosStyle = {
 			left: this.boxPos.x,
@@ -105,10 +106,11 @@ export default class Flower extends React.Component {
 				{/* Flower 이미지 */}
 				<Animated.View
 				{...this.flowerResponder.panHandlers}
-				style={[this.flowerPosStyle]}>
+				style={[this.flowerPosStyle, {width: 50, height: 50}]}>
 					<Image
+					pointerEvents='none'
 					source={require}
-					style={{width: 50, height: 50}}
+					style={{position: 'absolute', bottom: 0, width: 50, height: 100}}
 					/>
 				</Animated.View>
 			</View>
