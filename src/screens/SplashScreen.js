@@ -17,6 +17,12 @@ import getStyleSheet, { COLORS } from '../values/Styles';
 
 const TAG = 'SplashScreen/';
 const db = SQLite.openDatabase({ name: 'FeelLikeAFlower.db' });
+const flowersRequire = {
+	'나팔꽃': require('../../assets/drawable/flower_morningGlory.png'),
+	'국화-노랑': require('../../assets/drawable/flower_chrysanthemum-yellow.png'),
+	'국화-하양': require('../../assets/drawable/flower_chrysanthemum-white.png'),
+	'양귀비': require('../../assets/drawable/flower_poppy.png'),
+};
 
 export default class SplashScreen extends React.Component {
 	constructor(props) {
@@ -159,6 +165,7 @@ export default class SplashScreen extends React.Component {
 													emotions: emotions,
 													flowers: flowers,
 													todayDiary: result.rows.item(0),
+													flowersRequire: flowersRequire,
 												}
 											});
 											else
@@ -279,6 +286,7 @@ export default class SplashScreen extends React.Component {
 							emotions: emotions,
 							flowers: flowers,
 							todayDiary: newDiary,
+							flowersRequire: flowersRequire,
 						}
 					})
 				);

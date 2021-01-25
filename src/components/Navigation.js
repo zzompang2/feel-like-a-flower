@@ -16,7 +16,7 @@ export default class Navigation extends React.Component {
 		const styles = getStyleSheet();
 
 		// splash screen 에서 calender screen 으로 보낸 props
-		const { diaries, emotions } = state.routes[1].params;
+		const { diaries, emotions, flowers, flowersRequire } = state.routes[1].params;
 
 		return (
 			<SafeAreaView
@@ -50,6 +50,8 @@ export default class Navigation extends React.Component {
 				onPress={() => navigation.navigate('Garden', {
 					diaries: diaries,
 					emotions: emotions,
+					flowers: flowers,
+					flowersRequire: flowersRequire,
 				})}>
 					<View style={styles.navigation__shadow__light} />
 					<View style={styles.navigation__shadow__dark} />

@@ -11,24 +11,19 @@ import getStyleSheet from '../values/Styles';
 
 const TAG = 'CalenderScreen/';
 const days = ["일", "월", "화", "수", "목", "금", "토"];
-const flowersRequire = {
-	'나팔꽃': require('../../assets/drawable/flower_morningGlory.png'),
-	'국화-노랑': require('../../assets/drawable/flower_chrysanthemum-yellow.png'),
-	'국화-하양': require('../../assets/drawable/flower_chrysanthemum-white.png'),
-	'양귀비': require('../../assets/drawable/flower_poppy.png'),
-};
 
 export default class CalenderScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { diaries, emotions, flowers, todayDiary } = this.props.route.params;
+		const { diaries, emotions, flowers, todayDiary, flowersRequire } = this.props.route.params;
 
 		this.state = {
 			diaries: diaries,
 			emotions: emotions,
 			flowers: flowers,
 			todayDiary: todayDiary,
+			flowersRequire: flowersRequire,
 			viewMode: 'emotion',		// ['emotion', 'flower']
 		};
 
@@ -163,7 +158,7 @@ export default class CalenderScreen extends React.Component {
 	}
 
 	render() {
-		const { diaries, emotions, flowers, viewMode } = this.state;
+		const { diaries, emotions, flowers, viewMode, flowersRequire } = this.state;
 		const styles = getStyleSheet();
 		const {
 			changeViewMode,
