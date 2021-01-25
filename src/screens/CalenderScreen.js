@@ -24,7 +24,7 @@ export default class CalenderScreen extends React.Component {
 			flowers: flowers,
 			todayDiary: todayDiary,
 			flowersRequire: flowersRequire,
-			viewMode: 'emotion',		// ['emotion', 'flower']
+			viewMode: 'flower',		// ['emotion', 'flower']
 		};
 
 		this.screenTop = new Animated.Value(0);									// splash 에서 넘어올 때 스크린 올라가는 애니메이션을 위해.
@@ -233,10 +233,12 @@ export default class CalenderScreen extends React.Component {
 										viewMode == 'emotion' ?
 										<Text style={styles.calender__emotionName}>{findEmotionName(diaries[item.diariesIdx].eid)}</Text>
 										:
-										<Image
-										source={flowersRequire[findFlowerName(diaries[item.diariesIdx].fid)]}
-										style={{width: 30, height: 30}}
-										/>
+										<View style={{width: 40, height: 40, alignItems: 'center'}}>
+											<Image
+											source={flowersRequire[findFlowerName(diaries[item.diariesIdx].fid)]}
+											style={{position: 'absolute', top: 0, width: 20, height: 40}}
+											/>
+										</View>
 										:
 										<Text style={styles.calender__dateText}>{item.date}</Text>
 										}

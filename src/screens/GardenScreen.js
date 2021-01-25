@@ -87,14 +87,14 @@ export default class GardenScreen extends React.Component {
 		} = this;
 
 		return(
-			<SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
+			<SafeAreaView style={{flex: 1, justifyContent: 'center', backgroundColor: COLORS.green1}}>
 				{/* <Text>Garden</Text> */}
 
 				<View style={{position: 'absolute', alignSelf: 'center'}}>
 					{this.tilesInfo.map((row, idx) =>
 					<View key={idx} style={{flexDirection: 'row'}}>
 						{row.map((info, idx) =>
-							<View key={idx} style={{width: 48, height: 48, margin: 1, backgroundColor: COLORS.green1}} />
+							<View key={idx} style={{width: 50, height: 50, backgroundColor: COLORS.brown}} />
 						)}
 					</View>
 					)}

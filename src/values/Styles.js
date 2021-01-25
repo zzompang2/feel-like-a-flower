@@ -12,6 +12,7 @@ export const COLORS = {
 	green3: '#6cbe87',
 	green4: '#3b5d59',
 	pink: '#ff9f86',
+	brown: '#edaa25',
 }
 
 const basicStyleSheet = StyleSheet.create({

@@ -99,7 +99,17 @@ export default class SplashScreen extends React.Component {
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..', 1, 1, 1]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움', 1, 2, 2]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3, 3, 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210108, '2021.01.08', '2021.01.08', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3, 3, 3]);
 			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ', 2, 4, 4]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210110, '2021.01.10', '2021.01.10', 1, '예이예', 3, 0, 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210113, '2021.01.13', '2021.01.13', 1, '일기 내용을 적어주세요', 0, 3, 4]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210115, '2021.01.15', '2021.01.15', 1, '일기 내용을 적어주세요', 0, 3, 5]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210117, '2021.01.17', '2021.01.17', 1, '일기 내용을 적어주세요', 1, 3, 6]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210118, '2021.01.18', '2021.01.18', 1, '일기 내용을 적어주세요', 1, 4, 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210119, '2021.01.19', '2021.01.19', 1, '일기 내용을 적어주세요', 2, 4, 5]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210120, '2021.01.20', '2021.01.20', 1, '일기 내용을 적어주세요', 2, 4, 6]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210122, '2021.01.22', '2021.01.22', 1, '일기 내용을 적어주세요', 3, 5, 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210123, '2021.01.23', '2021.01.23', 1, '일기 내용을 적어주세요', 3, 5, 0]);
 
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '없음', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
