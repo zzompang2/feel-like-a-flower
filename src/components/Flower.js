@@ -15,58 +15,94 @@ export default class Flower extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.curPos = { x: 0, y: 0 };
+		const { id, changeFlowerPos } = this.props;
 
-		this.movedPos = new Animated.ValueXY();
+		this.flowerPos = new Animated.ValueXY();
 		this.boxPos = new Animated.ValueXY();
+		this.boxOpacity = new Animated.Value(0);
 
-		/*===== Left 버튼 =====*/
     this.flowerResponder = PanResponder.create({
 
 			// 주어진 터치이벤트에 반응할지 결정
       onStartShouldSetPanResponder: (event, gesture) => true,
 
       // 터치이벤트 발생할 때
-      onPanResponderGrant: (event, gesture) => {},
+      onPanResponderGrant: (event, gesture) => {
+				Animated.timing(
+					this.boxOpacity,
+					{
+						toValue: 1,
+						duration: 100,
+						useNativeDriver: true,
+					}
+				).start();
+			},
 			
       // MOVE 제스쳐가 진행 중일 때 (계속 실행)
 			onPanResponderMove: Animated.event(
-				[null, { dx: this.movedPos.x, dy: this.movedPos.y }],
+				[null, { dx: this.flowerPos.x, dy: this.flowerPos.y }],
 				{
 					useNativeDriver: false,
 					listener: () => {
-						const dxBlank = Math.round(this.movedPos.x._value/50);	// 꽃의 이동 칸 수
-						const dyBlank = Math.round(this.movedPos.y._value/50);
-						if(this.boxPos.x._value/50 != dxBlank || this.boxPos.y._value/50 != dyBlank)
-						this.boxPos.setValue({ x: dxBlank * 50, y: dyBlank * 50 });
+						const movedBlankX = Math.round(this.flowerPos.x._value/50);	// 꽃의 이동 칸 수
+						const movedBlankY = Math.round(this.flowerPos.y._value/50);
+						// 꽃의 이동 칸 수가 바뀔 때만 빨간 박스를 옮긴다
+						if(this.boxPos.x._value/50 != movedBlankX || this.boxPos.y._value/50 != movedBlankY)
+						this.boxPos.setValue({ x: movedBlankX * 50, y: movedBlankY * 50 });
 					},
 				}),
 
       // 터치이벤트 끝날 때
       onPanResponderRelease: (event, gesture) => {
-				const x = this.curPos.x + Math.round(gesture.dx / 50);
-				const y = this.curPos.y + Math.round(gesture.dy / 50);
-				this.movedPos.setValue({ x: 0, y: 0 });
+				Animated.timing(
+					this.boxOpacity,
+					{
+						toValue: 0,
+						duration: 1,
+						useNativeDriver: true,
+					}
+				).start();
+
+				const newBlankX = this.props.flowerBlank.x + Math.round(gesture.dx / 50);
+				const newBlankY = this.props.flowerBlank.y + Math.round(gesture.dy / 50);
+				this.flowerPos.setValue({ x: 0, y: 0 });
 				this.boxPos.setValue({ x: 0, y: 0 });
 
-				this.curPos = { x, y };
-				this.forceUpdate();
+				changeFlowerPos(id, newBlankX, newBlankY);
+				// this.forceUpdate();
       }
 		});
 	}
 
 	render() {
-		const { require } = this.props;
+		const { id, require, flowerBlank } = this.props;
 		const styles = getStyleSheet();
 
-		this.flowerPosStyle = { left: Animated.add(this.curPos.x * 50, this.movedPos.x), top: Animated.add(this.curPos.y * 50, this.movedPos.y) };
-		this.boxPosStyle = { left: Animated.add(this.curPos.x * 50, this.boxPos.x), top: Animated.add(this.curPos.y * 50, this.boxPos.y) };
+		this.containerPosStyle = {
+			left: 50 * flowerBlank.x,
+			top: 50 * flowerBlank.y
+		}
+		this.boxPosStyle = {
+			left: this.boxPos.x,
+			top: this.boxPos.y,
+		};
+		this.boxOpacityStyle = {
+			opacity: this.boxOpacity,
+		};
+		this.flowerPosStyle = {
+			left: this.flowerPos.x,
+			top: this.flowerPos.y
+		};
 
-		console.log(Animated.event);
 
 		return (
-			<View style={{position: 'absolute'}}>
-				<Animated.View style={[this.boxPosStyle, {position: 'absolute', width: 50, height: 50, borderWidth: 2, borderColor: 'red'}]} />
+			<View style={[this.containerPosStyle, {position: 'absolute'}]}>
+				{/* 이동할 곳 마킹하는 박스 */}
+				<Animated.View style={[this.boxPosStyle, {position: 'absolute'}]}>
+					<Animated.View style={[this.boxOpacityStyle, {width: 50, height: 50, borderWidth: 2, borderColor: 'red'}]} />
+				</Animated.View>
+				
+				{/* Flower 이미지 */}
 				<Animated.View
 				{...this.flowerResponder.panHandlers}
 				style={[this.flowerPosStyle]}>

@@ -65,6 +65,8 @@ export default class SplashScreen extends React.Component {
 				'eid INTEGER NOT NULL, ' +
 				'contents TEXT NOT NULL, ' +
 				'fid INTEGER NOT NULL, ' +
+				'x INTEGER NOT NULL, ' +
+				'y INTEGER NOT NULL, ' +
 				'PRIMARY KEY(id))'
 			);
 
@@ -90,11 +92,14 @@ export default class SplashScreen extends React.Component {
 			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [2, '국화-노랑', '꽃말2', '-1-2-8-']);
 			// txn.executeSql("INSERT INTO flowers VALUES (?, ?, ?, ?)", [3, '양귀비', '꽃말3', '-3-7-8-9-']);
 
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210101, '2021.01.01', '2021.01.01', 3, '난 너를 믿었던 만큼 난 내 친구도 믿었기에 난 아무런 부담없이 널 내 친구들에게 소개시켜줬고 그런 만남이 있는 후로부터 우리는 서로 함께 만나며 즐거운 시간을 보내며 함께 어울렸던 것 뿐인데..', 0]);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..', 1]);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움', 1]);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3]);
-			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ', 2]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+			// 	20210101, '2021.01.01', '2021.01.01', 3, 
+			// 	'난 너를 믿었던 만큼 난 내 친구도 믿었기에 난 아무런 부담없이 널 내 친구들에게 소개시켜줬고 그런 만남이 있는 후로부터 우리는 서로 함께 만나며 즐거운 시간을 보내며 함께 어울렸던 것 뿐인데..',
+			// 	0, 0, 0]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210104, '2021.01.04', '2021.01.04', 5, '기분이 애매한데..', 1, 1, 1]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210106, '2021.01.06', '2021.01.06', 6, '오늘 친구랑 싸움', 1, 2, 2]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210107, '2021.01.07', '2021.01.07', 1, '오랜만에 옷 쇼핑! 언제 올까나', 3, 3, 3]);
+			// txn.executeSql("INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [20210109, '2021.01.09', '2021.01.09', 5, '음.....ㅠㅠ', 2, 4, 4]);
 
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [0, '없음', 0]);
 			// txn.executeSql("INSERT INTO emotions VALUES (?, ?, ?)", [1, '기대', 0]);
@@ -273,12 +278,12 @@ export default class SplashScreen extends React.Component {
 			
 			console.log('선택한 eid:', eid, 'fidList', fidList, '중에서 선택된 fid =', fid);
 			
-			const newDiary = { id, date, editDate: date, eid, contents: this.contents, fid };
+			const newDiary = { id, date, editDate: date, eid, contents: this.contents, fid, x: 6, y: 6 };
 
 			db.transaction(txn => {
 				txn.executeSql(
-					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?)",
-					[id, date, date, eid, this.contents, fid],
+					"INSERT INTO diaries VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+					[id, date, date, eid, this.contents, fid, 6, 6],
 					() => this.props.navigation.navigate('Main', {
 						screen: 'Calender',
 						params: {
