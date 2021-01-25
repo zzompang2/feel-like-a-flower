@@ -81,7 +81,7 @@ export default class Flower extends React.Component {
 		this.containerPosStyle = {
 			left: 50 * flowerBlank.x,
 			top: 50 * flowerBlank.y,
-			zIndex: flowerBlank.y,
+			zIndex: Animated.add(flowerBlank.y, Animated.divide(this.boxPos.y, 50)),
 		}
 		this.boxPosStyle = {
 			left: this.boxPos.x,
@@ -97,7 +97,7 @@ export default class Flower extends React.Component {
 
 
 		return (
-			<View style={[this.containerPosStyle, {position: 'absolute'}]}>
+			<Animated.View style={[this.containerPosStyle, {position: 'absolute'}]}>
 				{/* 이동할 곳 마킹하는 박스 */}
 				<Animated.View style={[this.boxPosStyle, {position: 'absolute'}]}>
 					<Animated.View style={[this.boxOpacityStyle, {width: 50, height: 50, borderWidth: 2, borderColor: 'red'}]} />
@@ -113,7 +113,7 @@ export default class Flower extends React.Component {
 					style={{position: 'absolute', bottom: 0, width: 50, height: 100}}
 					/>
 				</Animated.View>
-			</View>
+			</Animated.View>
     )
   }
 }
