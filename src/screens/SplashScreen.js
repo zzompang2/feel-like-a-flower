@@ -354,148 +354,152 @@ export default class SplashScreen extends React.Component {
 				}}
 				activeOpacity={1}>
 
-						{/* 상단 바 */}
-						<View style={{
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							paddingBottom: 5}}>
-							<Text style={styles.main__topText}>{this.dateString}</Text>
+					{/* 상단 바 */}
+					<View style={{
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						paddingBottom: 5}}>
+						<Text style={styles.main__topText}>{this.dateString}</Text>
 
-							<View style={styles.main__topLine} />
+						<View style={styles.main__topLine} />
 
-							{/* 일기장 추가 버튼 */}
-							{emotionBtnEnable ?
-							<TouchableOpacity
-							onPress={() => addDiary()}>
-								<Text style={styles.main__topText}>그만 쓸래요</Text>
-							</TouchableOpacity> : null}
-						</View>
+						{/* 일기장 추가 버튼 */}
+						{emotionBtnEnable ?
+						<TouchableOpacity
+						onPress={() => addDiary()}>
+							<Text style={styles.main__topText}>그만 쓸래요</Text>
+						</TouchableOpacity> : null}
+					</View>
 
-						{/* contents 입력란 */}
-						<TextInput 
-						style={styles.contentsInput}
-						maxLength={200}
-						multiline={true}
-						autoCorrect={false}
-						placeholder="오늘 참.."
-						placeholderTextColor={COLORS.gray}
-						ref={ref => this.contentsInput = ref}
-						onChangeText={text => onChangeContents(text)} />
+					{/* contents 입력란 */}
+					<TextInput 
+					style={styles.contentsInput}
+					maxLength={200}
+					multiline={true}
+					autoCorrect={false}
+					placeholder="오늘 참.."
+					placeholderTextColor={COLORS.gray}
+					ref={ref => this.contentsInput = ref}
+					onChangeText={text => onChangeContents(text)} />
 
-						{/* 기분 추가 버튼 */}
-						{emotionBtnEnable && !emotionItemEnable ?
-						<Animated.View
-						style={[this.btnOpacityStyle, {flexDirection: 'row'}]}>
-							<TouchableOpacity
-							onPress={() => {
-								this.setState({ emotionItemEnable: true });
-								Keyboard.dismiss();
-							}}
-							activeOpacity={.8}
-							style={selectedEmotion.eid == 0 ?
-							styles.main__emotionBtn : styles.main__emotionBtnSelected}>
-								{selectedEmotion.eid == 0 ?
-								<Text style={styles.main__emotionBtn__text}>+ 기분 태그달기</Text> :
-								<Text style={styles.main__emotionBtn__textSelected}>{selectedEmotion.name}</Text>}
-							</TouchableOpacity>
-						</Animated.View>
-						: null}
+					{/* 기분 추가 버튼 */}
+					{emotionBtnEnable && !emotionItemEnable ?
+					<Animated.View
+					style={[this.btnOpacityStyle, {flexDirection: 'row'}]}>
+						<TouchableOpacity
+						onPress={() => {
+							this.setState({ emotionItemEnable: true });
+							Keyboard.dismiss();
+						}}
+						activeOpacity={.8}
+						style={selectedEmotion.eid == 0 ?
+						styles.main__emotionBtn : styles.main__emotionBtnSelected}>
+							{selectedEmotion.eid == 0 ?
+							<Text style={styles.main__emotionBtn__text}>+ 기분 태그달기</Text> :
+							<Text style={styles.main__emotionBtn__textSelected}>{selectedEmotion.name}</Text>}
+						</TouchableOpacity>
+					</Animated.View>
+					: null}
 
-						{/* 기분 아이템 리스트 */}
-						{emotionItemEnable ?
+					{/* 기분 아이템 리스트 */}
+					{emotionItemEnable ?
+					<View>
+						<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}>
 						<View>
-							<ScrollView
-							horizontal
-							showsHorizontalScrollIndicator={false}>
-							<View>
-								<View style={{flexDirection: 'row'}}>
-									{emotions.slice(0, Math.floor(emotions.length/3)).map(emo => 
-									<TouchableOpacity
-									key={emo.eid}
-									onPress={() => selectEmotion(emo)}
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(0, Math.floor(emotions.length/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
 									style={
 										selectedEmotion.eid == emo.eid ?
-										styles.main__emotionBtnSelected : styles.main__emotionBtn}
-									activeOpacity={.8}>
-										<Text
-										style={
-											selectedEmotion.eid == emo.eid ?
-											styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-										}>{emo.name}</Text>
-									</TouchableOpacity>
-									)}
-								</View>
-								<View style={{flexDirection: 'row'}}>
-									{emotions.slice(Math.floor(emotions.length/3), Math.floor(emotions.length*2/3)).map(emo => 
-									<TouchableOpacity
-									key={emo.eid}
-									onPress={() => selectEmotion(emo)}
-									style={
-										selectedEmotion.eid == emo.eid ?
-										styles.main__emotionBtnSelected : styles.main__emotionBtn}
-									activeOpacity={.8}>
-										<Text
-										style={
-											selectedEmotion.eid == emo.eid ?
-											styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-										}>{emo.name}</Text>
-									</TouchableOpacity>
-									)}
-								</View>
-								<View style={{flexDirection: 'row'}}>
-									{emotions.slice(Math.floor(emotions.length*2/3)).map(emo => 
-									<TouchableOpacity
-									key={emo.eid}
-									onPress={() => selectEmotion(emo)}
-									style={
-										selectedEmotion.eid == emo.eid ?
-										styles.main__emotionBtnSelected : styles.main__emotionBtn}
-									activeOpacity={.8}>
-										<Text
-										style={
-											selectedEmotion.eid == emo.eid ?
-											styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
-										}>{emo.name}</Text>
-									</TouchableOpacity>
-									)}
-								</View>
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
 							</View>
-							</ScrollView>
-							{/* 기분 태그 닫기 */}
-							<TouchableOpacity
-							onPress={() => this.setState({ emotionItemEnable: false })}
-							activeOpacity={.8}>
-								<Text style={styles.main__emotionBtn__text}>태그 닫기</Text>
-							</TouchableOpacity>
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(Math.floor(emotions.length/3), Math.floor(emotions.length*2/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
+									style={
+										selectedEmotion.eid == emo.eid ?
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
+							</View>
+							<View style={{flexDirection: 'row'}}>
+								{emotions.slice(Math.floor(emotions.length*2/3)).map(emo => 
+								<TouchableOpacity
+								key={emo.eid}
+								onPress={() => selectEmotion(emo)}
+								style={
+									selectedEmotion.eid == emo.eid ?
+									styles.main__emotionBtnSelected : styles.main__emotionBtn}
+								activeOpacity={.8}>
+									<Text
+									style={
+										selectedEmotion.eid == emo.eid ?
+										styles.main__emotionBtn__textSelected : styles.main__emotionBtn__text
+									}>{emo.name}</Text>
+								</TouchableOpacity>
+								)}
+							</View>
 						</View>
-						: null}
+						</ScrollView>
+						{/* 기분 태그 닫기 */}
+						<TouchableOpacity
+						onPress={() => this.setState({ emotionItemEnable: false })}
+						activeOpacity={.8}>
+							<Text style={styles.main__emotionBtn__text}>태그 닫기</Text>
+						</TouchableOpacity>
+					</View>
+					: null}
 
-						{/* 로고 */}
-						<Animated.View
-						pointerEvents='none'
-						style={[
-							{
-								position: 'absolute',
-								width: '100%',
-								height: '100%',
-								alignItems: 'center',
-								justifyContent: 'center'
-							},
-							this.logoOpacityStyle
-						]}>
-							<Text style={styles.logo}>기분 꽃 같네</Text>
-						</Animated.View>
-
-						{!emotionBtnEnable ? null :
+					{/* 로고 */}
+					<Animated.View
+					pointerEvents='none'
+					style={[
+						{
+							position: 'absolute',
+							width: '100%',
+							height: '100%',
+							alignSelf: 'center',
+							alignItems: 'center',
+							justifyContent: 'center',
+						},
+						this.logoOpacityStyle
+					]}>
 						<Image
-						source={
-							selectedEmotion.eid == 0 ?
-							require('../../assets/drawable/flower_seed.png') :
-							require('../../assets/drawable/flower_sprout.gif')}
-						style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+						source={require('../../assets/drawable/logo.png')}
+						style={[styles.logo, {width: 300, height: 60}]}
 						/>
-						}
+					</Animated.View>
+
+					{!emotionBtnEnable ? null :
+					<Image
+					source={
+						selectedEmotion.eid == 0 ?
+						require('../../assets/drawable/flower_seed.png') :
+						require('../../assets/drawable/flower_sprout.gif')}
+					style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}
+					/>
+					}
 				</TouchableOpacity>
 				</SafeAreaView>
 				</ImageBackground>

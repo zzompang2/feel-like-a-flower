@@ -69,7 +69,7 @@ const basicStyleSheet = StyleSheet.create({
 		borderRadius: 8,
 	},
 	logo: {
-		fontSize: 30,
+		// fontSize: 30,
 	},
 	contentsInput: {
 		width: '100%',
@@ -203,7 +203,6 @@ const lightStyleSheet = StyleSheet.create({
 	},
 	logo: {
 		...basicStyleSheet.logo,
-		color: COLORS.black,
 	},
 	contentsInput: {
 		...basicStyleSheet.contentsInput,
